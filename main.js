@@ -8,15 +8,13 @@ import Producto from "./producto.js";
         const  btnEliminar=document.getElementById("btnDelete");
         const  btnListar=document.getElementById("btnList");
         const  btnListarReves=document.getElementById("btnInvList");
-        const  btnInsertar=document.getElementById("btnInsert");
-       // const btmRandom=document.getElementById("ranDom")
+       const btmRandom=document.getElementById("ranDom")
         btnEliminar.addEventListener("click",  this._deleteProduct)
-        btnInsertar.addEventListener("click",  this._insertProduct)
         btnListarReves.addEventListener("click",  this._inverseListProducts)
         btnListar.addEventListener("click",  this._listProducts)
       btnBuscar.addEventListener("click",  this._searchProduct)
       btnRegister.addEventListener("click", this._addProduct)   
-     // btmRandom.addEventListener("click",this._random) 
+     btmRandom.addEventListener("click",this._random) 
     }
       readForm(){
         let inpCodigo=document.getElementById("txtCodigo");
@@ -85,39 +83,15 @@ import Producto from "./producto.js";
       detalles.innerHTML=this._inventory.inverseList();
       }
     
-    _insertProduct=()=>{
-      let pos=document.getElementById('txtPos').value;
-      let producto= this.readForm();
-      if(producto==null||pos==""){
-        document.getElementById("resultado").innerHTML="Error todos los campos son requeridos";
-        return;
-      }
-      pos=Number(pos)
-      if(pos>this._inventory.contar()){
-        document.getElementById("resultado").innerHTML=`Error posicion fuera de el limite <i>Limite : ${this._inventory.contar()}</i>`;
-        return;
-      }
-      if(this._inventory.contar()>=20){
-        document.getElementById("resultado").innerHTML="Error maximo 20 productos";
-        return
-      }
-      let added=this._inventory.insertar(pos,producto);
-      if(added==null){
-      document.getElementById("resultado").innerHTML="Error producto ya registrado";
-        return;
-      }
-      document.getElementById("resultado").innerHTML=`Agregaste el producto ${producto.infoHtml()} en la posicion ${pos}`;
-      console.log(this._inventory)
-      console.log(this._inventory.contar())
-    }
+    
 
-  /*  _random=()=>{
+ _random=()=>{
       for (let i = 0; i < 19; i++) {
-        let r = Math.floor(Math.random()*80);
+        let r = Math.floor(Math.random()*20);
      
-        this._inventory.agregar(new Producto(r,Math.floor(Math.random()*80),Math.floor(Math.random()*80),Math.floor(Math.random()*80)))
+        this._inventory.agregar(new Producto(r,Math.floor(Math.random()*20),Math.floor(Math.random()*20),Math.floor(Math.random()*20)))
     }
-    }*/
+    }
   }
  new App();
 

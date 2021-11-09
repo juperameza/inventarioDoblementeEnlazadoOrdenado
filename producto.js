@@ -5,6 +5,7 @@ export default class Producto{
       this.cantidad=cantidad;
       this.costo=costo;
       this.siguiente=null;
+      this.anterior=null;
     }
    getCodigo(){
        return this.codigo;

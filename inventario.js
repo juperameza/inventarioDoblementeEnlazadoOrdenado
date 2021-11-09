@@ -1,15 +1,20 @@
 export default class Inventario {
   constructor() {
     this.inicio = null;
+    
   }
   buscar(codigo){
     let temp=this.inicio;
     while(temp!=null){
-      if(temp.codigo==codigo)
+      if(temp.codigo>codigo){
+        console.log("Vesion")
+         return null
+      }
+      else if(temp.codigo==codigo)
         return temp;
       temp=temp.siguiente;
     }
-    return null;
+
   }
   
   agregar(nuevo) {
@@ -18,9 +23,31 @@ export default class Inventario {
          this.inicio = nuevo;
          return nuevo
       }
-    else {
-       this._agregar(nuevo, this.inicio);
+    else if(nuevo.codigo<this.inicio.codigo) {
+      nuevo.siguiente=this.inicio
+      this.inicio.anterior=nuevo
+      this.inicio=nuevo 
        return nuevo
+     }
+
+     else{
+      let temp=this.inicio
+      while(temp.siguiente!=null){
+        temp=temp.siguiente;
+        if(temp.codigo>nuevo.codigo){
+          nuevo.siguiente=temp
+          nuevo.anterior=temp.anterior
+          temp.anterior=nuevo
+          nuevo.anterior.siguiente=nuevo
+          return nuevo;
+        }
+      }
+      if(temp.codigo<nuevo.codigo){
+        temp.siguiente=nuevo
+        nuevo.anterior=temp
+        return nuevo 
+      }
+       
      }
     }
     else{
@@ -28,52 +55,28 @@ export default class Inventario {
   }
   } 
 
-  _agregar(nuevo, nodo) {
-    if (nodo.siguiente == null) nodo.siguiente = nuevo;
-    
-    else this._agregar(nuevo, nodo.siguiente);
-  } 
-
+ 
 
   eliminar(codigo){
-    let elim=null;
+    let temp =null;
     if (codigo==this.inicio.codigo){
-      elim=this.inicio;
-      this.inicio=this.inicio.siguiente;
-      elim.siguiente=null;
-      return elim;
+      temp=this.inicio;                                  
+       this.inicio=this.inicio.siguiente
+      this.inicio.anterior=null;
+      temp.anterior=null
+      temp.siguiente=null
+      return temp;
     }
-    let temp=this.inicio;
-    while(temp.siguiente != null ){
-      if (temp.siguiente.codigo==codigo)
-      {
-        elim=temp.siguiente;
-        temp.siguiente=temp.siguiente.siguiente;
-        elim.siguiente=null;
-        return elim;
-      } else
-        temp=temp.siguiente;
-    }
-    return elim;
+    temp=this.buscar(codigo);
+  
+    temp.anterior.siguiente=temp.siguiente              
+temp.siguiente.anterior=temp.anterior                   
+temp.anterior=null
+temp.siguiente=null
+
+    return temp;
   }
-  insertar(pos, producto) {
-    let find = this.buscar(producto.getCodigo());
-    if (pos > this.contar|| find != null) {
-      return null;
-    }
-    if(pos!=1){
-      let temp=this.inicio;
-        for(let i=1;i<pos-1;i++){
-            temp =temp.siguiente;
-      }
-      producto.siguiente=temp.siguiente;
-      temp.siguiente=producto
-      return producto
-    }
-    producto.siguiente=this.inicio;
-    this.inicio=producto
-    return producto
-  }
+  
   list(){
     if (!this.inicio)
       return '';
